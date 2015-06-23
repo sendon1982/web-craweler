@@ -20,9 +20,11 @@ public class ImageCrawlController
 
 	public static void main(String[] args) throws Exception
 	{
+		logger.debug("Start to execute Main method.");
+		
 		String rootFolder = "/usr/local/crawl/";
 		int numberOfCrawlers = 1;
-		String storageFolder = "/usr/local/crawl/";
+		String storageFolder = "/usr/local/crawl";
 
 		CrawlConfig config = new CrawlConfig();
 
