@@ -3,6 +3,9 @@ package com.zunix.craweler;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.HtmlParseData;
@@ -11,6 +14,8 @@ import edu.uci.ics.crawler4j.url.WebURL;
 public class BaseCraweler extends WebCrawler
 {
 	private final static Pattern FILTERS = Pattern.compile(".*(\\.(css|js|gif|jpg" + "|png|mp3|mp3|zip|gz))$");
+	
+	private static Logger log = LoggerFactory.getLogger(BaseCraweler.class);
 
 	/**
 	 * This method receives two parameters. The first parameter is the page in which we have discovered this new url and
@@ -32,6 +37,8 @@ public class BaseCraweler extends WebCrawler
 	@Override
 	public void visit(Page page)
 	{
+		log.debug("Invoke method visit()");
+		
 		String url = page.getWebURL().getURL();
 		System.out.println("URL: " + url);
 
