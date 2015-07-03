@@ -24,7 +24,7 @@ public class ImageCrawlController
 		
 		String rootFolder = "/usr/local/crawl/";
 		int numberOfCrawlers = 1;
-		String storageFolder = "/usr/local/crawl";
+		String storageFolder = "/usr/local/crawl/";
 
 		CrawlConfig config = new CrawlConfig();
 
@@ -37,11 +37,15 @@ public class ImageCrawlController
 		config.setIncludeBinaryContentInCrawling(true);
 
 		String[] crawlDomains =
-		{ "http://uci.edu/" };
+		{ "http://www.zhihu.com" };
 
 		PageFetcher pageFetcher = new PageFetcher(config);
 		RobotstxtConfig robotstxtConfig = new RobotstxtConfig();
 		RobotstxtServer robotstxtServer = new RobotstxtServer(robotstxtConfig, pageFetcher);
+		
+		robotstxtConfig.setEnabled(true);
+		robotstxtConfig.setCacheSize(0);
+		
 		CrawlController controller = new CrawlController(config, pageFetcher, robotstxtServer);
 		for (String domain : crawlDomains)
 		{

@@ -4,12 +4,18 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
 import edu.uci.ics.crawler4j.parser.BinaryParseData;
+import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 /**
@@ -20,6 +26,8 @@ import edu.uci.ics.crawler4j.url.WebURL;
  */
 public class ImageCraweler extends WebCrawler
 {
+	private static final Logger logger = LoggerFactory.getLogger(ImageCraweler.class);
+	
 	private static final Pattern filters = Pattern.compile(".*(\\.(css|js|mid|mp2|mp3|mp4|wav|avi|mov|mpeg|ram|m4v|pdf|rm|smil|wmv|swf|wma|zip|rar|gz))$");
 	private static final Pattern imgPatterns = Pattern.compile(".*(\\.(bmp|gif|jpe?g|png|tiff?))$");
 	
@@ -29,6 +37,8 @@ public class ImageCraweler extends WebCrawler
 
 	public static void configure(String[] domain, String storageFolderName)
 	{
+		logger.debug("Crawl Domain is [{}]", Arrays.asList(domain));
+		
 		crawlDomains = domain;
 
 		storageFolder = new File(storageFolderName);
@@ -66,6 +76,19 @@ public class ImageCraweler extends WebCrawler
 	public void visit(Page page)
 	{
 		String url = page.getWebURL().getURL();
+		
+		System.out.println(url);
+		
+		if (page.getParseData() instanceof HtmlParseData) {
+            HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
+            String text = htmlParseData.getText();
+            String html = htmlParseData.getHtml();
+            Set<WebURL> links = htmlParseData.getOutgoingUrls();
+
+            System.out.println("Text length: " + text.length());
+            System.out.println("Html length: " + html.length());
+            System.out.println("Number of outgoing links: " + links.size());
+    }
 
 		// We are only interested in processing images which are bigger than 10k
 		if (!imgPatterns.matcher(url).matches() || !((page.getParseData() instanceof BinaryParseData) || (page.getContentData().length < (10 * 1024))))
