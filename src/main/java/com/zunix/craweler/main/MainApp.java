@@ -46,21 +46,19 @@ public class MainApp
 		 */
 		
 		controller.addSeed("http://tieba.baidu.com/p/3568996375/");
-		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=2");
-		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=3");
-		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=4");
-		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=5");
-		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=6");
-
-		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=1");
-		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=2");
-		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=3");
-		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=4");
-		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=5");
-		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=6");
-		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=7");
-		
-		controller.addSeed("http://tieba.baidu.com/");
+//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=2");
+//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=3");
+//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=4");
+//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=5");
+//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=6");
+//
+//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=1");
+//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=2");
+//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=3");
+//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=4");
+//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=5");
+//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=6");
+//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=7");
 		
 		
 //		controller.addSeed("http://www.ics.uci.edu/~lopes/");
@@ -72,8 +70,7 @@ public class MainApp
 		 * when crawling is finished.
 		 */
 		String[] domain = new String[]{
-//			"http://tieba.baidu.com",
-//			"http://www.zhihu.com"
+			"http://tieba.baidu.com",
 		};
 		EmailCraweler.configure(domain, crawlStorageFolder);
 		
