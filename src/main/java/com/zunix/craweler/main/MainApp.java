@@ -26,7 +26,7 @@ public class MainApp
 		logger.info("Start to execute Main method.");
 		
 		String crawlStorageFolder = "/usr/local/crawl/";
-		int numberOfCrawlers = 5;
+		int numberOfCrawlers = 10;
 
 		CrawlConfig config = new CrawlConfig();
 		config.setCrawlStorageFolder(crawlStorageFolder);
@@ -44,43 +44,23 @@ public class MainApp
 		 * For each crawl, you need to add some seed urls. These are the first URLs that are fetched and then the
 		 * crawler starts following links which are found in these pages
 		 */
-		
-		controller.addSeed("http://tieba.baidu.com/p/3568996375/");
-//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=2");
-//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=3");
-//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=4");
-//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=5");
-//		controller.addSeed("http://tieba.baidu.com/p/3568996375?pn=6");
-//
-//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=1");
-//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=2");
-//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=3");
-//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=4");
-//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=5");
-//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=6");
-//		controller.addSeed("http://tieba.baidu.com/p/3799339039?pn=7");
-		
-		
-//		controller.addSeed("http://www.ics.uci.edu/~lopes/");
-//		controller.addSeed("http://www.ics.uci.edu/~welling/");
-//		controller.addSeed("http://www.ics.uci.edu/");
+		controller.addSeed("http://bbs.tianya.cn/post-stocks-1342993-1.shtml");
 
-		/*
-		 * Start the crawl. This is a blocking operation, meaning that your code will reach the line after this only
-		 * when crawling is finished.
+		/**
+		 * Domain is the control point where the crawler will stop.
 		 */
 		String[] domain = new String[]{
-			"http://tieba.baidu.com",
+			"http://bbs.tianya.cn/",
 		};
-		EmailCraweler.configure(domain, crawlStorageFolder);
 		
+		EmailCraweler.configure(domain, crawlStorageFolder);
+
+        /**
+         * Start the crawl. This is a blocking operation, meaning that your code will reach the line after this only
+         * when crawling is finished.
+         */
 		controller.start(EmailCraweler.class, numberOfCrawlers);
 		
 		System.out.println("************* Email list is below = " + EmailCraweler.emails.size() +  "*************");
-		
-		for (String email : EmailCraweler.emails)
-		{
-			System.out.println(email);
-		}
 	}
 }

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -19,9 +18,9 @@ import edu.uci.ics.crawler4j.parser.HtmlParseData;
 import edu.uci.ics.crawler4j.url.WebURL;
 
 /**
- * This class shows how you can crawl images on the web and store them in a folder. This is just for demonstration
- * purposes and doesn't scale for large number of images. For crawling millions of images you would need to store
- * downloaded images in a hierarchy of folders
+ * This class shows how you can crawl email on the web and store them in a folder. This is just for demonstration
+ * purposes and doesn't scale for large number of email. For crawling millions of email you would need to store
+ * downloaded email in a hierarchy of folders
  */
 public class EmailCraweler extends WebCrawler
 {
@@ -39,7 +38,7 @@ public class EmailCraweler extends WebCrawler
 	private static File storageFolder;
 	private static String[] crawlDomains;
 	
-	private EmailProcessHandler emailProcessHandler;
+//	private EmailProcessHandler emailProcessHandler = new EmailProcessDbHandler();
 
 	public static void configure(String[] domain, String storageFolderName)
 	{
@@ -84,6 +83,8 @@ public class EmailCraweler extends WebCrawler
 	{
 		String url = page.getWebURL().getURL();
 		
+		System.out.println("url is " + url);
+		
 		if (page.getParseData() instanceof HtmlParseData)
 		{
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
@@ -93,7 +94,6 @@ public class EmailCraweler extends WebCrawler
 			
 			Pattern p = Pattern.compile("\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b", Pattern.CASE_INSENSITIVE);
 			Matcher matcher = p.matcher(html);
-			
 
 			while (matcher.find())
 			{
@@ -101,21 +101,16 @@ public class EmailCraweler extends WebCrawler
 			}
 		}
 
-		// get a unique name for storing this image
-		String extension = url.substring(url.lastIndexOf('.'));
-		String hashedName = UUID.randomUUID() + extension;
-
-		// store image
-		String filename = storageFolder.getAbsolutePath() + "/" + hashedName;
-		try
-		{
-			FileUtils.writeLines(new File(filename), emails);
-			
-			logger.info("Stored: {}", url);
-		}
-		catch (IOException iox)
-		{
-			logger.error("Failed to write file: " + filename, iox);
-		}
+		url = url.replaceAll("http://", "");
+        String filename = storageFolder.getAbsolutePath() + "/" + url;
+        try
+        {
+            FileUtils.writeLines(new File(filename), emails);
+            logger.info("Stored: {}", url);
+        }
+        catch (IOException iox)
+        {
+            logger.error("Failed to write file: " + filename, iox);
+        }
 	}
 }
