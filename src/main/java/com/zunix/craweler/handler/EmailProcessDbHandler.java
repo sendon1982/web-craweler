@@ -23,6 +23,8 @@ public class EmailProcessDbHandler implements EmailProcessHandler {
 
     @SuppressWarnings("resource")
     public EmailProcessDbHandler() {
+        logger.debug("Get the spring configure xml from classpath.");
+
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("spring-dao.xml");
         emailRepository = context.getBean("emailRepository", EmailRepository.class);
     }
@@ -43,8 +45,26 @@ public class EmailProcessDbHandler implements EmailProcessHandler {
             try {
                 emailRepository.insert(emailObject);
             } catch (Throwable e) {
-                logger.error("Failed to insert into DB: " + e);
+                // logger.error("Failed to insert into DB: " + e);
             }
+        }
+    }
+
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @see com.zunix.craweler.handler.EmailProcessHandler#persist(java.lang.String)
+     */
+    @Override
+    public void persist(String email) {
+        Email emailObject = new Email(email);
+        emailObject.setCreatedBy("sendon1982");
+        emailObject.setCreatedTime(new Date());
+        try {
+            emailRepository.insert(emailObject);
+        } catch (Throwable e) {
+            // logger.error("Failed to insert into DB: " + e);
         }
     }
 

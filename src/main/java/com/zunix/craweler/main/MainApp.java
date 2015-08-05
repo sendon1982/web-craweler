@@ -25,8 +25,8 @@ public class MainApp
 	{
 		logger.info("Start to execute Main method.");
 		
-		String crawlStorageFolder = "/usr/local/crawl/";
-		int numberOfCrawlers = 10;
+		String crawlStorageFolder = "/home/crawel/";
+		int numberOfCrawlers = 20;
 
 		CrawlConfig config = new CrawlConfig();
 		config.setCrawlStorageFolder(crawlStorageFolder);
@@ -44,13 +44,15 @@ public class MainApp
 		 * For each crawl, you need to add some seed urls. These are the first URLs that are fetched and then the
 		 * crawler starts following links which are found in these pages
 		 */
-		controller.addSeed("http://bbs.tianya.cn/post-stocks-1342993-1.shtml");
+		controller.addSeed("http://bbs.tianya.cn/post-outseachina-46564-1.shtml");
 
 		/**
 		 * Domain is the control point where the crawler will stop.
 		 */
 		String[] domain = new String[]{
 			"http://bbs.tianya.cn/",
+			"http://focus.tianya.cn/",
+			"http://www.tianya.cn/"
 		};
 		
 		EmailCraweler.configure(domain, crawlStorageFolder);
@@ -60,7 +62,5 @@ public class MainApp
          * when crawling is finished.
          */
 		controller.start(EmailCraweler.class, numberOfCrawlers);
-		
-		System.out.println("************* Email list is below = " + EmailCraweler.emails.size() +  "*************");
 	}
 }

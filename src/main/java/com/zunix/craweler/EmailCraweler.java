@@ -1,16 +1,17 @@
 package com.zunix.craweler;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.zunix.craweler.handler.EmailProcessDbHandler;
+import com.zunix.craweler.handler.EmailProcessHandler;
 
 import edu.uci.ics.crawler4j.crawler.Page;
 import edu.uci.ics.crawler4j.crawler.WebCrawler;
@@ -33,12 +34,12 @@ public class EmailCraweler extends WebCrawler
 
 	private static final Pattern EMAIL_PATTERNS = Pattern.compile("^.*(\\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}\\b).*$");
 	
-	public static Set<String> emails = new HashSet<String>();
+	public static Set<String> emails = new LinkedHashSet<String>();
 
 	private static File storageFolder;
 	private static String[] crawlDomains;
 	
-//	private EmailProcessHandler emailProcessHandler = new EmailProcessDbHandler();
+	private EmailProcessHandler emailProcessHandler = new EmailProcessDbHandler();
 
 	public static void configure(String[] domain, String storageFolderName)
 	{
@@ -83,8 +84,6 @@ public class EmailCraweler extends WebCrawler
 	{
 		String url = page.getWebURL().getURL();
 		
-		System.out.println("url is " + url);
-		
 		if (page.getParseData() instanceof HtmlParseData)
 		{
 			HtmlParseData htmlParseData = (HtmlParseData) page.getParseData();
@@ -97,20 +96,27 @@ public class EmailCraweler extends WebCrawler
 
 			while (matcher.find())
 			{
-				emails.add(matcher.group());
+//				emails.add(matcher.group());
+			    String email = matcher.group();
+			    emailProcessHandler.persist(email);
 			}
 		}
 
-		url = url.replaceAll("http://", "");
-        String filename = storageFolder.getAbsolutePath() + "/" + url;
+		if(emails.isEmpty())
+		{
+		    return ;
+		}
+		
+//		String filename = storageFolder.getAbsolutePath() + "/" + "email.txt";
+		
         try
         {
-            FileUtils.writeLines(new File(filename), emails);
+            //FileUtils.writeLines(new File(filename), emails);
             logger.info("Stored: {}", url);
         }
-        catch (IOException iox)
+        catch (Exception iox)
         {
-            logger.error("Failed to write file: " + filename, iox);
+//            logger.error("Failed to write file: " + filename, iox);
         }
 	}
 }
